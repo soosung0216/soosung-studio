@@ -1,1137 +1,455 @@
-<!DOCTYPE html>
-
-<html lang="ko">
-
-<head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
-<title>포트폴리오</title>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
 
 <style>
 
-
-
 body{
-
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-
 background:#fafafa;
-
 margin:0;
-
 padding:40px 12px;
-
 color:#222;
-
 text-align:center;
-
 }
-
-
 
 .page{
-
 max-width:680px;
-
 margin:auto;
-
 display:flex;
-
 flex-direction:column;
-
 gap:28px;
-
 }
-
-
 
 .card{
-
 background:#fff;
-
 border-radius:18px;
-
 padding:28px 22px;
-
 box-shadow:0 6px 30px rgba(0,0,0,0.06);
-
 }
-
-
 
 .card-title{
-
 font-size:20px;
-
 font-weight:700;
-
 margin-bottom:14px;
-
+cursor:pointer;
 }
-
-
 
 .divider{
-
 height:1px;
-
 background:#eee;
-
 margin-bottom:20px;
-
 }
-
-
 
 p{line-height:1.8;}
 
-
-
+/* 이미지 박스 */
 .sample{
-
 width:120px;
-
 height:120px;
-
-background:#f3f3f3;
-
+background:#fff;
 border-radius:12px;
-
 margin:auto;
-
 display:flex;
-
 align-items:center;
-
 justify-content:center;
-
 cursor:pointer;
-
 overflow:hidden;
 
-position:relative;
-
+border:1px solid #e8e8e8;
+box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
-
-
 
 .sample img{
-
 width:100%;
-
 height:100%;
-
 object-fit:contain;
-
 }
 
-
-
-.sample-upload-hint{
-
-font-size:11px;
-
-color:#bbb;
-
-display:none;
-
+/* 픽셀 + 애니메이션 100px */
+.pixel-box .sample{
+width:100px;
+height:100px;
 }
 
-
-
-.admin-mode .sample .sample-upload-hint{
-
-display:block;
-
-}
-
-
-
+/* 작업순서 */
 .process{
-
 display:flex;
-
 justify-content:center;
-
 align-items:center;
-
 gap:10px;
-
 flex-wrap:wrap;
-
 }
-
-
 
 .step{font-weight:600;}
-
 .icon{font-size:24px;margin-bottom:6px;}
-
 .arrow{font-size:18px;color:#aaa;}
 
-
-
 .process-note{
-
 margin-top:22px;
-
 font-size:14px;
-
 color:#777;
-
 }
 
-
-
+/* 픽셀 */
 .pixel-box{
-
 display:flex;
-
 justify-content:center;
-
 gap:40px;
-
 flex-wrap:wrap;
-
 }
 
-
-
+/* 안내 */
 .notice-list{
-
 list-style:none;
-
 padding:0;
-
 }
-
-
 
 .notice-list li{
-
 margin:12px 0;
-
 }
 
-
-
+/* 포트폴리오 */
 .portfolio-filter{
-
 display:flex;
-
 justify-content:center;
-
 gap:10px;
-
 flex-wrap:wrap;
-
 margin-bottom:12px;
-
 }
-
-
 
 .portfolio-filter button{
-
 padding:6px 12px;
-
 border-radius:20px;
-
 border:1px solid #ddd;
-
 background:#fff;
-
 cursor:pointer;
-
 font-size:14px;
-
 }
-
-
 
 .portfolio-filter button.active{
-
 background:#222;
-
 color:#fff;
-
 border-color:#222;
-
 }
 
-
-
+/* 관리자 패널 */
 #adminPanel{
-
 display:none;
-
 gap:10px;
-
 flex-wrap:wrap;
-
 justify-content:center;
-
 margin:10px 0 14px;
-
 }
-
-
 
 #adminPanel button{
-
 padding:6px 12px;
-
 border-radius:20px;
-
 border:1px solid #ddd;
-
 background:#fff;
-
 cursor:pointer;
-
 font-size:13px;
-
 }
 
-
-
+/* 포트폴리오 */
 .portfolio-grid{
-
 display:grid;
-
 grid-template-columns:repeat(3,1fr);
-
 gap:12px;
-
 }
-
-
 
 .portfolio-item{
-
 aspect-ratio:1;
-
 background:#f3f3f3;
-
 border-radius:12px;
-
 display:flex;
-
 align-items:center;
-
 justify-content:center;
-
 overflow:hidden;
-
-position:relative;
-
 }
-
-
 
 .portfolio-item img{
-
 width:100%;
-
 height:100%;
-
 object-fit:contain;
-
 }
-
-
-
-.delete-btn{
-
-display:none;
-
-position:absolute;
-
-top:4px;
-
-right:4px;
-
-background:rgba(0,0,0,0.6);
-
-color:#fff;
-
-border:none;
-
-border-radius:50%;
-
-width:24px;
-
-height:24px;
-
-font-size:14px;
-
-cursor:pointer;
-
-line-height:24px;
-
-text-align:center;
-
-padding:0;
-
-}
-
-
-
-.admin-mode .delete-btn{
-
-display:block;
-
-}
-
-
-
-.upload-loading{
-
-display:none;
-
-font-size:13px;
-
-color:#999;
-
-margin-top:8px;
-
-}
-
-
-
-#adminToggleBtn{
-
-background:none;
-
-border:1px solid #eee;
-
-border-radius:20px;
-
-padding:6px 14px;
-
-font-size:13px;
-
-color:#bbb;
-
-cursor:pointer;
-
-margin-bottom:4px;
-
-}
-
-
-
-#toast{
-
-position:fixed;
-
-bottom:30px;
-
-left:50%;
-
-transform:translateX(-50%) translateY(20px);
-
-background:#222;
-
-color:#fff;
-
-padding:10px 22px;
-
-border-radius:30px;
-
-font-size:14px;
-
-opacity:0;
-
-transition:all 0.3s;
-
-pointer-events:none;
-
-z-index:9999;
-
-white-space:nowrap;
-
-}
-
-
-
-#toast.show{
-
-opacity:1;
-
-transform:translateX(-50%) translateY(0);
-
-}
-
-
-
-.spinner{
-
-display:inline-block;
-
-width:18px;
-
-height:18px;
-
-border:2px solid #eee;
-
-border-top-color:#222;
-
-border-radius:50%;
-
-animation:spin 0.7s linear infinite;
-
-vertical-align:middle;
-
-margin-right:6px;
-
-}
-
-
-
-@keyframes spin{to{transform:rotate(360deg);}}
-
-
 
 </style>
 
-</head>
+<div class="page">
 
-<body>
+<!-- 관리자 진입 버튼 -->
+<button onclick="toggleAdmin()">관리자 모드 (테스트용)</button>
 
+<!-- 작업경력 -->
+<div class="card">
 
-
-<div id="toast"></div>
-
-
-
-<div class="page" id="mainPage">
-
-
-
-<button id="adminToggleBtn" onclick="toggleAdmin()">관리자 모드</button>
-
-
-
-<div class="card" onclick="adminTap()">
-
-<div class="card-title">작업경력</div>
-
+<div class="card-title" onclick="adminTap()">작업경력</div>
 <div class="divider"></div>
 
-<div class="sample" id="box-career" onclick="uploadToBox(this,'career')">
-
-  <span class="sample-upload-hint">탭하여 업로드</span>
-
-</div>
+<div class="sample" onclick="uploadToBox(this)"></div>
 
 <p>
-
 현재까지 총 600건 이상의 구독뱃지 제작 경험으로<br>
-
 작은 사이즈에서도 잘 보이도록 가시성과 디테일을 고려한 도트 작업물을 제작합니다.<br>
-
 궁금하신 점은 편하게 문의 주세요!
-
 </p>
 
 </div>
 
-
-
+<!-- 작업순서 -->
 <div class="card">
-
 <div class="card-title">작업순서</div>
-
 <div class="divider"></div>
 
 <div class="process">
-
 <div class="step"><div class="icon">💬</div>문의</div>
-
 <div class="arrow">→</div>
-
 <div class="step"><div class="icon">🎨</div>작업</div>
-
 <div class="arrow">→</div>
-
 <div class="step"><div class="icon">💝</div>수정</div>
-
 <div class="arrow">→</div>
-
 <div class="step"><div class="icon">💌</div>완성</div>
-
 </div>
 
 <p class="process-note">
-
 ※ 수정은 횟수 제한 없이 진행되며,<br>
-
 원하시는 결과가 나올 때까지 충분히 반영해드립니다.
-
 </p>
 
 </div>
 
-
-
+<!-- 작업기간 -->
 <div class="card">
-
 <div class="card-title">작업기간</div>
-
 <div class="divider"></div>
 
 <p>
-
 1세트(6개) 기준 1~3일 이내 작업됩니다.<br><br>
-
 상황에 따라 빠른 마감도 가능합니다.<br><br>
-
 당일 마감은 추가 비용이 발생할 수 있습니다.
-
 </p>
 
 </div>
 
-
-
+<!-- 가격 -->
 <div class="card">
-
 <div class="card-title">가격 관련 안내</div>
-
 <div class="divider"></div>
 
 <p>
-
 작업 내용에 따라 가격이 달라질 수 있습니다.<br><br>
-
 같은 디자인에서 색상만 바뀌거나,<br>
-
 소품만 살짝 추가되는 경우에는 더 저렴한 가격으로 진행됩니다.<br><br>
-
 정확한 금액은 디자인 확인 후 안내드리니,<br>
-
 부담 없이 편하게 문의 주세요!
-
 </p>
 
 </div>
 
-
-
+<!-- 픽셀 스타일 -->
 <div class="card">
-
 <div class="card-title">픽셀 스타일</div>
-
 <div class="divider"></div>
 
 <div class="pixel-box">
-
 <div>
-
-  <div class="sample" id="box-pixel18" onclick="uploadToBox(this,'pixel18')">
-
-    <span class="sample-upload-hint">탭하여 업로드</span>
-
-  </div>
-
-  <div style="margin-top:8px;font-weight:600;">18px</div>
-
+<div class="sample" onclick="uploadToBox(this)"></div>
+<div style="margin-top:8px;font-weight:600;">18px</div>
 </div>
 
 <div>
-
-  <div class="sample" id="box-pixel36" onclick="uploadToBox(this,'pixel36')">
-
-    <span class="sample-upload-hint">탭하여 업로드</span>
-
-  </div>
-
-  <div style="margin-top:8px;font-weight:600;">36px</div>
-
+<div class="sample" onclick="uploadToBox(this)"></div>
+<div style="margin-top:8px;font-weight:600;">36px</div>
+</div>
 </div>
 
-</div>
-
-<p style="margin-top:18px;font-size:14px;color:#666;">
-
+<p style="font-size:14px;">
 ※ 해당 픽셀 표기는 실제 플랫폼 기준이 아닌 작업 설명용입니다.
-
 </p>
 
 </div>
 
-
-
+<!-- 도트 애니메이션 -->
 <div class="card">
-
 <div class="card-title">도트 애니메이션</div>
-
 <div class="divider"></div>
 
 <div class="pixel-box">
-
-<div><div class="sample" id="box-anim1" onclick="uploadToBox(this,'anim1')"><span class="sample-upload-hint">탭하여 업로드</span></div></div>
-
-<div><div class="sample" id="box-anim2" onclick="uploadToBox(this,'anim2')"><span class="sample-upload-hint">탭하여 업로드</span></div></div>
-
-<div><div class="sample" id="box-anim3" onclick="uploadToBox(this,'anim3')"><span class="sample-upload-hint">탭하여 업로드</span></div></div>
-
+<div><div class="sample" onclick="uploadToBox(this)"></div></div>
+<div><div class="sample" onclick="uploadToBox(this)"></div></div>
+<div><div class="sample" onclick="uploadToBox(this)"></div></div>
 </div>
 
-<p>
-
+<p style="font-size:14px;">
 프레임 수와 작업량에 따라 비용이 달라질 수 있으니<br>
-
 자세한 디자인은 문의 부탁드립니다!
-
 </p>
 
 </div>
 
-
-
+<!-- 안내사항 -->
 <div class="card">
-
 <div class="card-title">안내사항</div>
-
 <div class="divider"></div>
 
 <ul class="notice-list">
-
-<li>주문 전 문의 부탁드립니다.</li>
-
-<li>오마카세 작업 가능합니다 (전체 컨셉 변경 불가)</li>
-
-<li>작업물은 포트폴리오로 사용됩니다.</li>
-
-<li>보정·리터칭 등 2차 가공은 금지입니다.</li>
-
+<li>주문 전 문의 부탁드립니다.<br><br></li>
+<li>오마카세 작업 가능합니다 (전체 컨셉 변경 불가)<br><br></li>
+<li>작업물은 포트폴리오로 사용됩니다.<br><br></li>
+<li>보정·리터칭 등 2차 가공은 금지입니다.<br><br></li>
 </ul>
 
 </div>
 
-
-
+<!-- 포트폴리오 -->
 <div class="card">
-
 <div class="card-title">포트폴리오</div>
-
 <div class="divider"></div>
 
-
-
 <div class="portfolio-filter">
-
-<button onclick="setView('all',this)" class="active">전체</button>
-
-<button onclick="setView('animal',this)">동물</button>
-
-<button onclick="setView('character',this)">캐릭터</button>
-
-<button onclick="setView('etc',this)">기타</button>
-
+<button onclick="setView('all', this)" class="active">전체</button>
+<button onclick="setView('animal', this)">동물</button>
+<button onclick="setView('character', this)">캐릭터</button>
+<button onclick="setView('etc', this)">기타</button>
 </div>
 
-
-
+<!-- 관리자 업로드 패널 -->
 <div id="adminPanel">
-
-<button onclick="upload('animal')">+ 동물 추가</button>
-
-<button onclick="upload('character')">+ 캐릭터 추가</button>
-
-<button onclick="upload('etc')">+ 기타 추가</button>
-
+<button onclick="upload('animal')">+ 동물 이미지 추가</button>
+<button onclick="upload('character')">+ 캐릭터 이미지 추가</button>
+<button onclick="upload('etc')">+ 기타 이미지 추가</button>
 </div>
-
-
-
-<div id="uploadLoading" class="upload-loading"></div>
 
 <div class="portfolio-grid" id="portfolio"></div>
 
 </div>
 
-
-
 </div>
-
-
 
 <script>
 
-
-
-const SUPABASE_URL = "https://zeghlvabmzyjtgiaadjb.supabase.co";
-
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InplZ2hsdmFibXp5anRnaWFhZGpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MjUyNDYsImV4cCI6MjA5MjQwMTI0Nn0.r1qk2VjjEzBwILPdqXDL3DEhXOE9_2JT0lq-vm0s770";
-
-const BUCKET = "portfolio-images";
-
-
-
-const { createClient } = supabase;
-
-const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-
+let animalData = [];
+let characterData = [];
+let etcData = [];
 
 let currentView = "all";
-
 let adminMode = false;
 
-let allImages = [];
-
-
-
-const grid = document.getElementById("portfolio");
-
-const loadingEl = document.getElementById("uploadLoading");
-
-
-
-window.addEventListener("load", async () => {
-
-  await loadAllImages();
-
-});
-
-
-
-async function loadAllImages(){
-
-  try {
-
-    const { data, error } = await sb
-
-      .from("portfolio")
-
-      .select("*")
-
-      .order("created_at", { ascending: false });
-
-    if(error) throw error;
-
-    allImages = data || [];
-
-    allImages.forEach(item => {
-
-      if(item.box_key){
-
-        const el = document.getElementById("box-" + item.box_key);
-
-        if(el) el.innerHTML = `<img src="${item.url}"><span class="sample-upload-hint">탭하여 업로드</span>`;
-
-      }
-
-    });
-
-    refreshView();
-
-  } catch(e) {
-
-    console.error("이미지 로드 실패:", e);
-
-  }
-
-}
-
-
-
+/* 관리자 모드 토글 */
 function toggleAdmin(){
-
-  adminMode = !adminMode;
-
-  document.getElementById("adminPanel").style.display = adminMode ? "flex" : "none";
-
-  document.getElementById("mainPage").classList.toggle("admin-mode", adminMode);
-
-  showToast(adminMode ? "관리자 모드 ON" : "관리자 모드 OFF");
-
+adminMode = !adminMode;
+document.getElementById("adminPanel").style.display =
+adminMode ? "flex" : "none";
 }
 
-
-
-let adminTapCount = 0;
-
-let adminTapTimer = null;
-
-
+/* 작업경력 3번 클릭 */
+let tapCount = 0;
+let tapTimer;
 
 function adminTap(){
+tapCount++;
 
-  adminTapCount++;
-
-  if(adminTapCount === 1){
-
-    adminTapTimer = setTimeout(()=>{ adminTapCount = 0; }, 1000);
-
-  }
-
-  if(adminTapCount >= 3){
-
-    clearTimeout(adminTapTimer);
-
-    adminTapCount = 0;
-
-    toggleAdmin();
-
-  }
-
+if(tapCount === 1){
+tapTimer = setTimeout(()=>tapCount=0,1000);
 }
 
-
-
-function upload(category){
-
-  const input = document.createElement("input");
-
-  input.type = "file";
-
-  input.accept = "image/*";
-
-  input.multiple = true;
-
-  input.onchange = async (e) => {
-
-    const files = Array.from(e.target.files);
-
-    for(const file of files){
-
-      await uploadFile(file, category, null);
-
-    }
-
-    await loadAllImages();
-
-  };
-
-  input.click();
-
+if(tapCount >= 3){
+clearTimeout(tapTimer);
+tapCount = 0;
+toggleAdmin();
+}
 }
 
+/* 이미지 업로드 */
+function upload(type){
 
+const input=document.createElement("input");
+input.type="file";
+input.accept="image/*";
 
-function uploadToBox(el, boxKey){
+input.onchange=e=>{
+const file=e.target.files[0];
+if(!file)return;
 
-  if(!adminMode) return;
+const reader=new FileReader();
 
-  const input = document.createElement("input");
+reader.onload=ev=>{
 
-  input.type = "file";
+const img={src:ev.target.result};
 
-  input.accept = "image/*";
+if(type==="animal") animalData.push(img);
+if(type==="character") characterData.push(img);
+if(type==="etc") etcData.push(img);
 
-  input.onchange = async (e) => {
+refreshView();
 
-    const file = e.target.files[0];
+};
 
-    if(!file) return;
+reader.readAsDataURL(file);
+};
 
-    const existing = allImages.find(i => i.box_key === boxKey);
-
-    if(existing){
-
-      await sb.storage.from(BUCKET).remove([existing.path]);
-
-      await sb.from("portfolio").delete().eq("id", existing.id);
-
-    }
-
-    await uploadFile(file, "box", boxKey);
-
-    await loadAllImages();
-
-  };
-
-  input.click();
-
+input.click();
 }
 
+/* 박스 업로드 */
+function uploadToBox(el){
+if(!adminMode) return;
 
+const input=document.createElement("input");
+input.type="file";
+input.accept="image/*";
 
-async function uploadFile(file, category, boxKey){
+input.onchange=e=>{
+const file=e.target.files[0];
+if(!file)return;
 
-  showLoading(`<span class="spinner"></span> 업로드 중...`);
+const reader=new FileReader();
 
-  try {
+reader.onload=ev=>{
+el.innerHTML=`<img src="${ev.target.result}">`;
+};
 
-    const ext = file.name.split(".").pop();
+reader.readAsDataURL(file);
+};
 
-    const fileName = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-
-    const path = `${category}/${fileName}`;
-
-    const { error: upErr } = await sb.storage
-
-      .from(BUCKET)
-
-      .upload(path, file, { upsert: false });
-
-    if(upErr) throw upErr;
-
-    const { data: urlData } = sb.storage.from(BUCKET).getPublicUrl(path);
-
-    const url = urlData.publicUrl;
-
-    const { error: dbErr } = await sb
-
-      .from("portfolio")
-
-      .insert({ url, category, path, box_key: boxKey });
-
-    if(dbErr) throw dbErr;
-
-    showToast("업로드 완료! ✅");
-
-  } catch(e) {
-
-    console.error("업로드 실패:", e);
-
-    showToast("업로드 실패 ❌ 다시 시도해주세요");
-
-  } finally {
-
-    hideLoading();
-
-  }
-
+input.click();
 }
 
+/* 필터 */
+function setView(type,el){
 
+currentView=type;
 
-async function deleteImage(id, path, e){
+document.querySelectorAll(".portfolio-filter button")
+.forEach(b=>b.classList.remove("active"));
 
-  e.stopPropagation();
+el.classList.add("active");
 
-  if(!confirm("이 이미지를 삭제할까요?")) return;
-
-  try {
-
-    await sb.storage.from(BUCKET).remove([path]);
-
-    await sb.from("portfolio").delete().eq("id", id);
-
-    allImages = allImages.filter(i => i.id !== id);
-
-    refreshView();
-
-    showToast("삭제 완료");
-
-  } catch(err) {
-
-    showToast("삭제 실패 ❌");
-
-  }
-
+refreshView();
 }
 
-
-
-function setView(type, el){
-
-  currentView = type;
-
-  document.querySelectorAll(".portfolio-filter button")
-
-    .forEach(btn => btn.classList.remove("active"));
-
-  el.classList.add("active");
-
-  refreshView();
-
-}
-
-
-
+/* 렌더 */
 function refreshView(){
 
-  let list = allImages.filter(i => !i.box_key);
+let list=[];
 
-  if(currentView !== "all"){
+if(currentView==="animal") list=animalData;
+else if(currentView==="character") list=characterData;
+else if(currentView==="etc") list=etcData;
+else list=[...animalData,...characterData,...etcData];
 
-    list = list.filter(i => i.category === currentView);
+document.getElementById("portfolio").innerHTML="";
 
-  }
-
-  grid.innerHTML = "";
-
-  if(list.length === 0){
-
-    grid.innerHTML = `<div style="grid-column:1/-1;color:#bbb;font-size:14px;padding:20px 0;">아직 이미지가 없어요</div>`;
-
-    return;
-
-  }
-
-  list.forEach(item => {
-
-    grid.innerHTML += `
-
-      <div class="portfolio-item">
-
-        <img src="${item.url}" loading="lazy">
-
-        <button class="delete-btn" onclick="deleteImage('${item.id}','${item.path}',event)">×</button>
-
-      </div>
-
-    `;
-
-  });
+list.forEach(item=>{
+document.getElementById("portfolio").innerHTML+=`
+<div class="portfolio-item">
+<img src="${item.src}">
+</div>
+`;
+});
 
 }
 
-
-
-function showLoading(msg){
-
-  loadingEl.style.display = "block";
-
-  loadingEl.innerHTML = msg;
-
-}
-
-
-
-function hideLoading(){
-
-  loadingEl.style.display = "none";
-
-}
-
-
-
-let toastTimer;
-
-function showToast(msg){
-
-  const toast = document.getElementById("toast");
-
-  toast.textContent = msg;
-
-  toast.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 2500);
-
-}
-
-
+refreshView();
 
 </script>
-
-</body>
-
-</html>
