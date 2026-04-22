@@ -355,17 +355,18 @@ let tapTimer;
 function adminTap(){
 tapCount++;
 
-if(tapCount === 1){
-tapTimer = setTimeout(()=>tapCount=0,1000);
-}
+clearTimeout(tapTimer);
+
+tapTimer = setTimeout(()=>{
+tapCount = 0;
+}, 1200);
 
 if(tapCount >= 3){
-clearTimeout(tapTimer);
 tapCount = 0;
 toggleAdmin();
 }
 }
-
+  
 /* 박스 생성 */
 function createBox(src, type){
 
