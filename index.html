@@ -367,6 +367,21 @@ toggleAdmin();
 }
 
 /* 박스 생성 */
+function createBox(src, type){
+
+const div=document.createElement("div");
+div.className="portfolio-item";
+div.dataset.type = type;
+
+div.innerHTML=`
+<img src="${src}">
+`;
+
+grid.appendChild(div);
+
+}
+
+/* 이미지 업로드 */
 function addBox(type){
 
 const input=document.createElement("input");
@@ -380,7 +395,7 @@ if(!file)return;
 const reader=new FileReader();
 
 reader.onload=ev=>{
-createBox(ev.target.result);
+createBox(ev.target.result, type);
 };
 
 reader.readAsDataURL(file);
@@ -389,21 +404,7 @@ reader.readAsDataURL(file);
 input.click();
 }
 
-/* 실제 박스 생성 */
-function createBox(src){
-
-const div=document.createElement("div");
-div.className="portfolio-item";
-
-div.innerHTML=`
-<img src="${src}">
-`;
-
-grid.appendChild(div);
-
-}
-
-/* 작업경력 / 박스 업로드 */
+/* 작업경력 이미지 업로드 */
 function uploadToBox(el){
 if(!adminMode) return;
 
@@ -427,7 +428,7 @@ reader.readAsDataURL(file);
 input.click();
 }
 
-/* 필터 */
+/* 필터 기능 */
 function setView(type,el){
 
 currentView=type;
@@ -437,6 +438,19 @@ document.querySelectorAll(".portfolio-filter button")
 
 el.classList.add("active");
 
+document.querySelectorAll(".portfolio-item").forEach(item=>{
+
+const itemType = item.dataset.type;
+
+// 전체 = 전부 표시
+if(type === "all"){
+item.style.display = "flex";
+return;
 }
 
-</script>
+// 특정 카테고리만 표시
+item.style.display = (itemType === type) ? "flex" : "none";
+
+});
+
+}
