@@ -108,7 +108,7 @@ padding:0;
 margin:12px 0;
 }
 
-/* 포트폴리오 */
+/* 포트폴리오 필터 */
 .portfolio-filter{
 display:flex;
 justify-content:center;
@@ -132,7 +132,7 @@ color:#fff;
 border-color:#222;
 }
 
-/* 관리자 */
+/* 관리자 패널 */
 #adminPanel{
 display:none;
 gap:10px;
@@ -150,20 +150,28 @@ cursor:pointer;
 font-size:13px;
 }
 
-/* 포트폴리오 */
+/* 포트폴리오 그리드 (1열 카드형) */
 .portfolio-grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
+grid-template-columns:1fr;
+gap:14px;
 }
 
+/* 포트폴리오 카드 (500x100) */
 .portfolio-item{
-aspect-ratio:1;
+width:100%;
+max-width:500px;
+height:100px;
+
+margin:0 auto;
+
 background:#f3f3f3;
 border-radius:12px;
+
 display:flex;
 align-items:center;
 justify-content:center;
+
 overflow:hidden;
 }
 
@@ -333,12 +341,14 @@ let adminMode = false;
 
 const grid = document.getElementById("portfolio");
 
+/* 관리자 모드 */
 function toggleAdmin(){
 adminMode = !adminMode;
 document.getElementById("adminPanel").style.display =
 adminMode ? "flex" : "none";
 }
 
+/* 3번 클릭 진입 */
 let tapCount = 0;
 let tapTimer;
 
@@ -356,6 +366,7 @@ toggleAdmin();
 }
 }
 
+/* 박스 생성 */
 function addBox(type){
 
 const input=document.createElement("input");
@@ -369,15 +380,7 @@ if(!file)return;
 const reader=new FileReader();
 
 reader.onload=ev=>{
-
-const item={src:ev.target.result};
-
-if(type==="animal") animalData.push(item);
-if(type==="character") characterData.push(item);
-if(type==="etc") etcData.push(item);
-
-refreshView();
-
+createBox(ev.target.result);
 };
 
 reader.readAsDataURL(file);
@@ -386,6 +389,21 @@ reader.readAsDataURL(file);
 input.click();
 }
 
+/* 실제 박스 생성 */
+function createBox(src){
+
+const div=document.createElement("div");
+div.className="portfolio-item";
+
+div.innerHTML=`
+<img src="${src}">
+`;
+
+grid.appendChild(div);
+
+}
+
+/* 작업경력 / 박스 업로드 */
 function uploadToBox(el){
 if(!adminMode) return;
 
@@ -409,6 +427,7 @@ reader.readAsDataURL(file);
 input.click();
 }
 
+/* 필터 */
 function setView(type,el){
 
 currentView=type;
@@ -418,30 +437,6 @@ document.querySelectorAll(".portfolio-filter button")
 
 el.classList.add("active");
 
-refreshView();
 }
-
-function refreshView(){
-
-let list=[];
-
-if(currentView==="animal") list=animalData;
-else if(currentView==="character") list=characterData;
-else if(currentView==="etc") list=etcData;
-else list=[...animalData,...characterData,...etcData];
-
-grid.innerHTML="";
-
-list.forEach(item=>{
-grid.innerHTML+=`
-<div class="portfolio-item">
-<img src="${item.src}">
-</div>
-`;
-});
-
-}
-
-refreshView();
 
 </script>
