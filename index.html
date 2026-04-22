@@ -347,25 +347,6 @@ adminMode = !adminMode;
 document.getElementById("adminPanel").style.display =
 adminMode ? "flex" : "none";
 }
-
-/* 3번 클릭 진입 */
-let tapCount = 0;
-let tapTimer;
-
-function adminTap(){
-tapCount++;
-
-clearTimeout(tapTimer);
-
-tapTimer = setTimeout(()=>{
-tapCount = 0;
-}, 1200);
-
-if(tapCount >= 3){
-tapCount = 0;
-toggleAdmin();
-}
-}
   
 /* 박스 생성 */
 function createBox(src, type){
