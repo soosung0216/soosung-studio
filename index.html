@@ -98,7 +98,7 @@ padding:0;
 margin:12px 0;
 }
 
-/* 포폴 */
+/* 포트폴리오 */
 .portfolio-filter{
 display:flex;
 justify-content:center;
@@ -140,7 +140,7 @@ cursor:pointer;
 font-size:13px;
 }
 
-/* 포폴 */
+/* 포트폴리오 */
 .portfolio-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -167,11 +167,12 @@ object-fit:contain;
 
 <div class="page">
 
-<!-- 관리자 버튼 -->
-<button onclick="toggleAdmin()">관리자 모드</button>
+<!-- 관리자 진입 (3번 클릭/터치) -->
+<button onclick="toggleAdmin()">관리자 모드 (테스트용)</button>
 
-<!-- 작업경력 -->
-<div class="card">
+<!-- 작업경력 (관리자 숨김 진입) -->
+<div class="card" onclick="adminTap()">
+
 <div class="card-title">작업경력</div>
 <div class="divider"></div>
 
@@ -182,6 +183,7 @@ object-fit:contain;
 작은 사이즈에서도 잘 보이도록 가시성과 디테일을 고려한 도트 작업물을 제작합니다.<br>
 궁금하신 점은 편하게 문의 주세요!
 </p>
+
 </div>
 
 <!-- 작업순서 -->
@@ -203,6 +205,7 @@ object-fit:contain;
 ※ 수정은 횟수 제한 없이 진행되며,<br>
 원하시는 결과가 나올 때까지 충분히 반영해드립니다.
 </p>
+
 </div>
 
 <!-- 작업기간 -->
@@ -215,6 +218,7 @@ object-fit:contain;
 상황에 따라 빠른 마감도 가능합니다.<br><br>
 당일 마감은 추가 비용이 발생할 수 있습니다.
 </p>
+
 </div>
 
 <!-- 가격 -->
@@ -229,6 +233,7 @@ object-fit:contain;
 정확한 금액은 디자인 확인 후 안내드리니,<br>
 부담 없이 편하게 문의 주세요!
 </p>
+
 </div>
 
 <!-- 픽셀 -->
@@ -244,6 +249,7 @@ object-fit:contain;
 <p style="margin-top:18px;font-size:14px;color:#666;">
 ※ 해당 픽셀 표기는 실제 플랫폼 기준이 아닌 작업 설명용입니다.
 </p>
+
 </div>
 
 <!-- 도트 애니메이션 -->
@@ -261,6 +267,7 @@ object-fit:contain;
 프레임 수와 작업량에 따라 비용이 달라질 수 있으니<br>
 자세한 디자인은 문의 부탁드립니다!
 </p>
+
 </div>
 
 <!-- 안내 -->
@@ -274,6 +281,7 @@ object-fit:contain;
 <li>작업물은 포트폴리오로 사용됩니다.</li>
 <li>보정·리터칭 등 2차 가공은 금지입니다.</li>
 </ul>
+
 </div>
 
 <!-- 포트폴리오 -->
@@ -311,14 +319,42 @@ let adminMode = false;
 
 const grid = document.getElementById("portfolio");
 
-/* 관리자 */
+/* =========================
+   관리자 토글 (버튼용)
+========================= */
 function toggleAdmin(){
 adminMode = !adminMode;
 document.getElementById("adminPanel").style.display =
 adminMode ? "flex" : "none";
 }
 
-/* 포트폴리오 업로드 */
+/* =========================
+   3번 클릭/터치 관리자 진입
+========================= */
+let adminTapCount = 0;
+let adminTapTimer = null;
+
+function adminTap(){
+
+adminTapCount++;
+
+if(adminTapCount === 1){
+adminTapTimer = setTimeout(()=>{
+adminTapCount = 0;
+}, 1000);
+}
+
+if(adminTapCount >= 3){
+clearTimeout(adminTapTimer);
+adminTapCount = 0;
+toggleAdmin();
+}
+
+}
+
+/* =========================
+   포트폴리오 업로드
+========================= */
 function upload(type){
 
 const input=document.createElement("input");
@@ -349,7 +385,9 @@ reader.readAsDataURL(file);
 input.click();
 }
 
-/* 박스 업로드 */
+/* =========================
+   박스 업로드 (관리자만)
+========================= */
 function uploadToBox(el){
 if(!adminMode) return;
 
@@ -373,7 +411,9 @@ reader.readAsDataURL(file);
 input.click();
 }
 
-/* 필터 */
+/* =========================
+   필터
+========================= */
 function setView(type, el){
 
 currentView = type;
@@ -386,7 +426,9 @@ el.classList.add("active");
 refreshView();
 }
 
-/* 렌더 */
+/* =========================
+   렌더링
+========================= */
 function refreshView(){
 
 let list=[];
