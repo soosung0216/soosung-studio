@@ -5,7 +5,7 @@
  
 body{
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-background:#fafafa;
+background:#F2F4F6;
 margin:0;
 padding:40px 12px;
 color:#222;
@@ -21,10 +21,10 @@ gap:28px;
 }
  
 .card{
-background:#fff;
+background:#FFFFFF;
 border-radius:18px;
 padding:28px 22px;
-box-shadow:0 6px 30px rgba(0,0,0,0.06);
+box-shadow:0 6px 30px rgba(61,90,115,0.08);
 }
  
 .card-title{
@@ -32,21 +32,22 @@ font-size:20px;
 font-weight:700;
 margin-bottom:14px;
 cursor:pointer;
+color:#1E2A35;
 }
  
 .divider{
 height:1px;
-background:#eee;
+background:#DDE3EA;
 margin-bottom:20px;
 }
  
-p{line-height:1.8;}
+p{line-height:1.8; color:#444;}
  
 /* 이미지 박스 */
 .sample{
 width:120px;
 height:120px;
-background:#fff;
+background:#F2F4F6;
 border-radius:12px;
 margin:auto;
 display:flex;
@@ -54,8 +55,8 @@ align-items:center;
 justify-content:center;
 cursor:pointer;
 overflow:hidden;
-border:1px solid #e8e8e8;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
+border:1px solid #DDE3EA;
+box-shadow:0 2px 8px rgba(61,90,115,0.08);
 }
  
 .sample img{
@@ -79,14 +80,14 @@ gap:10px;
 flex-wrap:wrap;
 }
  
-.step{font-weight:600;}
+.step{font-weight:600; color:#1E2A35;}
 .icon{font-size:24px;margin-bottom:6px;}
-.arrow{font-size:18px;color:#aaa;}
+.arrow{font-size:18px;color:#9BAEBB;}
  
 .process-note{
 margin-top:22px;
 font-size:14px;
-color:#777;
+color:#7A90A0;
 }
  
 /* 픽셀 */
@@ -105,6 +106,7 @@ padding:0;
  
 .notice-list li{
 margin:12px 0;
+color:#444;
 }
  
 /* 포트폴리오 필터 */
@@ -119,17 +121,22 @@ margin-bottom:12px;
 .portfolio-filter button{
 padding:6px 16px;
 border-radius:20px;
-border:1px solid #ddd;
-background:#fff;
+border:1px solid #C8D4DC;
+background:#F2F4F6;
 cursor:pointer;
 font-size:14px;
+color:#3D5A73;
 transition:all 0.2s;
 }
  
 .portfolio-filter button.active{
-background:#222;
+background:#3D5A73;
 color:#fff;
-border-color:#222;
+border-color:#3D5A73;
+}
+ 
+.portfolio-filter button:hover:not(.active){
+background:#E2EAF0;
 }
  
 /* 관리자 패널 */
@@ -144,10 +151,15 @@ margin:10px 0 14px;
 #adminPanel button{
 padding:6px 14px;
 border-radius:20px;
-border:1px solid #ddd;
-background:#fff;
+border:1px solid #C8D4DC;
+background:#F2F4F6;
 cursor:pointer;
 font-size:13px;
+color:#3D5A73;
+}
+ 
+#adminPanel button:hover{
+background:#E2EAF0;
 }
  
 /* 포트폴리오 그리드 */
@@ -163,10 +175,10 @@ gap:14px;
 width:100%;
 max-width:500px;
 height:100px;
-background:#fff;
+background:#F2F4F6;
 border-radius:12px;
-border:1px solid #e8e8e8;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
+border:1px solid #DDE3EA;
+box-shadow:0 2px 8px rgba(61,90,115,0.08);
 display:flex;
 align-items:center;
 justify-content:center;
@@ -177,7 +189,7 @@ position:relative;
  
 .portfolio-item.admin-mode{
 cursor:pointer;
-border:2px dashed #bbb;
+border:2px dashed #9BAEBB;
 }
  
 .portfolio-item img{
@@ -189,7 +201,7 @@ pointer-events:none;
  
 .portfolio-item .empty-label{
 font-size:13px;
-color:#bbb;
+color:#9BAEBB;
 pointer-events:none;
 }
  
@@ -271,12 +283,12 @@ pointer-events:none;
 <div class="pixel-box">
 <div>
 <div class="sample" onclick="uploadToBox(this)"></div>
-<div style="margin-top:8px;font-weight:600;">18px</div>
+<div style="margin-top:8px;font-weight:600;color:#1E2A35;">18px</div>
 </div>
  
 <div>
 <div class="sample" onclick="uploadToBox(this)"></div>
-<div style="margin-top:8px;font-weight:600;">36px</div>
+<div style="margin-top:8px;font-weight:600;color:#1E2A35;">36px</div>
 </div>
 </div>
  
@@ -395,24 +407,20 @@ function createBox(src, type){
   div.className = "portfolio-item" + (adminMode ? " admin-mode" : "");
   div.dataset.type = type;
  
-  // 이미지 엘리먼트는 항상 유지, src만 교체
-  const img = document.createElement("img");
-  const label = document.createElement("span");
-  label.className = "empty-label";
-  label.textContent = "클릭하여 이미지 추가";
- 
   if(src){
+    const img = document.createElement("img");
     img.src = src;
     div.appendChild(img);
   } else {
+    const label = document.createElement("span");
+    label.className = "empty-label";
+    label.textContent = "클릭하여 이미지 추가";
     div.appendChild(label);
   }
  
-  /* 클릭 이벤트 - 관리자 모드일 때만 업로드 */
   div.addEventListener("click", () => {
     if(!adminMode) return;
     openFilePicker(result => {
-      // label 제거하고 img로 교체
       div.innerHTML = "";
       const newImg = document.createElement("img");
       newImg.src = result;
