@@ -1,469 +1,479 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
- 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
 <style>
  
-body{
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-background:#F2F4F6;
-margin:0;
-padding:40px 12px;
-color:#222;
-text-align:center;
+/* ─── THEME VARIABLES ─────────────────────────────── */
+:root {
+  --grad-from:   #D9D6FF;
+  --grad-to:     #BFE4FF;
+  --accent:      #7B6FE8;
+  --accent-dark: #4d4794;
+  --accent-pale: #F4F6FF;
+  --box:         #F4F6FF;
+  --box-inner:   #FFFFFF;
+  --divider-mid: #7B6FE8;
+  --divider-side: rgba(123,111,232,0.15);
+  --text-head:   #4d4794;
+  --text-body:   #6060A0;
+  --border:      rgba(123,111,232,0.22);
+  --btn-active-bg: linear-gradient(135deg,#7B6FE8,#4E42C2);
+  --btn-text:    #7B6FE8;
+  --card-shadow: 0 6px 28px rgba(123,111,232,0.12);
+  --step-border: rgba(123,111,232,0.28);
 }
  
-.page{
-max-width:680px;
-margin:auto;
-display:flex;
-flex-direction:column;
-gap:28px;
+/* ─── RESET ───────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+ 
+body {
+  font-family: 'Noto Sans KR', -apple-system, sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--grad-from) 0%, var(--grad-to) 100%);
+  background-attachment: fixed;
+  padding: 44px 12px 60px;
+  color: var(--text-head);
+  text-align: center;
 }
  
-.card{
-background:#FFFFFF;
-border-radius:18px;
-padding:28px 22px;
-box-shadow:0 6px 30px rgba(61,90,115,0.08);
+/* ─── PAGE ────────────────────────────────────────── */
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
  
-.card-title{
-font-size:20px;
-font-weight:700;
-margin-bottom:14px;
-cursor:pointer;
-color:#1E2A35;
+/* ─── HERO HEADER ─────────────────────────────────── */
+.site-header {
+  padding: 20px 10px 0px;
+  text-align: center;
+}
+.header-card {
+  background: var(--box);
+  border-radius: 20px;
+  padding: 28px 22px 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+}
+.header-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+}
+.site-header h1 {
+  color: #4d4794;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.site-header .sub {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-body);
+  letter-spacing: 1.5px;
 }
  
-.divider{
-height:1px;
-background:#DDE3EA;
-margin-bottom:20px;
+/* ─── CARD ────────────────────────────────────────── */
+.card {
+  background: var(--box);
+  border-radius: 20px;
+  padding: 26px 22px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
 }
  
-p{line-height:1.8; color:#444;}
- 
-/* 이미지 박스 */
-.sample{
-width:120px;
-height:120px;
-background:#F2F4F6;
-border-radius:12px;
-margin:auto;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-overflow:hidden;
-border:1px solid #DDE3EA;
-box-shadow:0 2px 8px rgba(61,90,115,0.08);
+/* ─── CARD TITLE ──────────────────────────────────── */
+.card-title {
+  font-size: 20px;           /* 원래 15px의 4/3 = 20px */
+  font-weight: 700;
+  color: var(--accent-dark);
+  margin-bottom: 16px;
+  cursor: pointer;
+  letter-spacing: -0.2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.card-title .badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--box-inner);
+  color: var(--accent);
+  border: 1px solid var(--step-border);
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
 }
  
-.sample img{
-width:100%;
-height:100%;
-object-fit:contain;
+/* ─── DIVIDER — 중앙 진하게 ───────────────────────── */
+.divider {
+  height: 2px;
+  background: radial-gradient(ellipse at center,
+    var(--divider-mid) 0%,
+    var(--divider-side) 70%,
+    transparent 100%);
+  margin-bottom: 22px;
+  border-radius: 2px;
 }
  
-/* 픽셀 + 애니메이션 100px */
-.pixel-box .sample{
-width:100px;
-height:100px;
+/* ─── BODY TEXT ───────────────────────────────────── */
+p {
+  line-height: 1.95;
+  color: var(--text-body);
+  font-size: 14px;
+  font-weight: 400;
 }
  
-/* 작업순서 */
-.process{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:10px;
-flex-wrap:wrap;
+/* ─── IMAGE BOX (통일된 흰 박스) ──────────────────── */
+.sample {
+  width: 120px;
+  height: 120px;
+  background: var(--box-inner);
+  border-radius: 16px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+  transition: all 0.25s ease;
+}
+.sample:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  border-color: var(--accent);
+}
+.sample img { width:100%; height:100%; object-fit:contain; }
+ 
+/* ─── PROCESS ─────────────────────────────────────── */
+.process {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+/* 작업순서 스텝 = 동일한 흰 박스 스타일 */
+.step {
+  background: var(--box-inner);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  min-width: 70px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-head);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  transition: all 0.2s;
+}
+.step:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.09); }
+.icon { font-size: 22px; margin-bottom: 6px; }
+.arrow { font-size: 16px; color: var(--accent); opacity: 0.7; }
+ 
+.process-note {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--accent-dark);
+  font-weight: 600;
+  background: var(--box-inner);
+  border-radius: 14px;
+  padding: 16px 18px;
+  border: 1.5px solid var(--border);
+  text-align: center;
+  line-height: 1.85;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
  
-.step{font-weight:600; color:#1E2A35;}
-.icon{font-size:24px;margin-bottom:6px;}
-.arrow{font-size:18px;color:#9BAEBB;}
- 
-.process-note{
-margin-top:22px;
-font-size:14px;
-color:#7A90A0;
+/* ─── PIXEL BOX ───────────────────────────────────── */
+.pixel-box {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+.pixel-box .sample { width:100px; height:100px; }
+.pixel-label {
+  margin-top: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-dark);
+  letter-spacing: 0.3px;
 }
  
-/* 픽셀 */
-.pixel-box{
-display:flex;
-justify-content:center;
-gap:40px;
-flex-wrap:wrap;
+/* ─── NOTICE LIST ─────────────────────────────────── */
+.notice-list { list-style: none; padding: 0; display:flex; flex-direction:column; gap:10px; }
+.notice-list li {
+  background: var(--box-inner);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 13px 18px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--text-body);
+  line-height: 1.75;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
  
-/* 안내 */
-.notice-list{
-list-style:none;
-padding:0;
+/* ─── PORTFOLIO FILTER ────────────────────────────── */
+.portfolio-filter {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.portfolio-filter button {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--box-inner);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--btn-text);
+  transition: all 0.2s;
+  font-family: 'Noto Sans KR', sans-serif;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.portfolio-filter button.active {
+  background: var(--btn-active-bg);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+.portfolio-filter button:hover:not(.active) {
+  border-color: var(--accent);
+  transform: translateY(-1px);
 }
  
-.notice-list li{
-margin:12px 0;
-color:#444;
+/* ─── ADMIN PANEL ─────────────────────────────────── */
+#adminPanel {
+  display: none;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 6px 0 14px;
+}
+#adminPanel button {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--box-inner);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-dark);
+  font-family: 'Noto Sans KR', sans-serif;
 }
  
-/* 포트폴리오 필터 */
-.portfolio-filter{
-display:flex;
-justify-content:center;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:12px;
+/* ─── PORTFOLIO GRID ──────────────────────────────── */
+.portfolio-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
+.portfolio-item {
+  width: 100%;
+  max-width: 500px;
+  height: 100px;
+  background: var(--box-inner);
+  border-radius: 16px;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: default;
+  position: relative;
+  transition: all 0.25s;
+}
+.portfolio-item:hover { transform: translateY(-2px); box-shadow: 0 7px 22px rgba(0,0,0,0.09); }
+.portfolio-item.admin-mode { cursor: pointer; border: 2px dashed var(--accent); }
+.portfolio-item img { width:100%; height:100%; object-fit:contain; pointer-events:none; }
+.portfolio-item .empty-label { font-size: 13px; color: var(--text-body); pointer-events:none; }
  
-.portfolio-filter button{
-padding:6px 16px;
-border-radius:20px;
-border:1px solid #C8D4DC;
-background:#F2F4F6;
-cursor:pointer;
-font-size:14px;
-color:#3D5A73;
-transition:all 0.2s;
+/* ─── PRICE HIGHLIGHT ─────────────────────────────── */
+.price-note {
+  background: var(--box-inner);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-top: 16px;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
- 
-.portfolio-filter button.active{
-background:#3D5A73;
-color:#fff;
-border-color:#3D5A73;
-}
- 
-.portfolio-filter button:hover:not(.active){
-background:#E2EAF0;
-}
- 
-/* 관리자 패널 */
-#adminPanel{
-display:none;
-gap:10px;
-flex-wrap:wrap;
-justify-content:center;
-margin:10px 0 14px;
-}
- 
-#adminPanel button{
-padding:6px 14px;
-border-radius:20px;
-border:1px solid #C8D4DC;
-background:#F2F4F6;
-cursor:pointer;
-font-size:13px;
-color:#3D5A73;
-}
- 
-#adminPanel button:hover{
-background:#E2EAF0;
-}
- 
-/* 포트폴리오 그리드 */
-.portfolio-grid{
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:14px;
-}
- 
-/* 포트폴리오 카드 */
-.portfolio-item{
-width:100%;
-max-width:500px;
-height:100px;
-background:#F2F4F6;
-border-radius:12px;
-border:1px solid #DDE3EA;
-box-shadow:0 2px 8px rgba(61,90,115,0.08);
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
-cursor:default;
-position:relative;
-}
- 
-.portfolio-item.admin-mode{
-cursor:pointer;
-border:2px dashed #9BAEBB;
-}
- 
-.portfolio-item img{
-width:100%;
-height:100%;
-object-fit:contain;
-pointer-events:none;
-}
- 
-.portfolio-item .empty-label{
-font-size:13px;
-color:#9BAEBB;
-pointer-events:none;
-}
+.price-note p { color: var(--accent-dark); font-weight: 600; }
  
 </style>
- 
+</head>
+<body>
 <div class="page">
  
-<!-- 작업경력 -->
+<!-- ── HEADER ── -->
+<div class="site-header">
+  <div class="header-card">
+    <div class="header-badge">✦ PIXEL SUB BADGES ✦</div>
+    <h1>도트 구독뱃지·아이콘 커미션</h1>
+    <div class="sub">구독뱃지 · 도트 · 픽셀아트</div>
+  </div>
+</div>
+ 
+<!-- ── 작업경력 ── -->
 <div class="card">
- 
-<div class="card-title" onclick="adminTap()">작업경력</div>
-<div class="divider"></div>
- 
-<div class="sample" onclick="uploadToBox(this)"></div>
- 
-<p>
-현재까지 총 600건 이상의 구독뱃지 제작 경험으로<br>
-작은 사이즈에서도 잘 보이도록 가시성과 디테일을 고려한 도트 작업물을 제작합니다.<br>
-궁금하신 점은 편하게 문의 주세요!
-</p>
- 
+  <div class="card-title" onclick="adminTap()">작업경력</div>
+  <div class="divider"></div>
+  <div class="sample" onclick="uploadToBox(this)">
+    <span style="font-size:38px">🎨</span>
+  </div>
+  <p style="margin-top:18px;">
+    현재까지 총 600건 이상의 구독뱃지 제작 경험으로<br>
+    작은 사이즈에서도 잘 보이도록 가시성과 디테일을 고려한<br>
+    도트 작업물을 제작합니다.<br>
+    궁금하신 점은 편하게 문의 주세요!
+  </p>
 </div>
  
-<!-- 작업순서 -->
+<!-- ── 작업순서 ── -->
 <div class="card">
-<div class="card-title">작업순서</div>
-<div class="divider"></div>
- 
-<div class="process">
-<div class="step"><div class="icon">💬</div>문의</div>
-<div class="arrow">→</div>
-<div class="step"><div class="icon">🎨</div>작업</div>
-<div class="arrow">→</div>
-<div class="step"><div class="icon">💝</div>수정</div>
-<div class="arrow">→</div>
-<div class="step"><div class="icon">💌</div>완성</div>
+  <div class="card-title">작업순서</div>
+  <div class="divider"></div>
+  <div class="process">
+    <div class="step"><div class="icon">💬</div>문의</div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="icon">🎨</div>작업</div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="icon">💝</div>수정</div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="icon">💌</div>완성</div>
+  </div>
+  <div class="process-note">
+    ※ 수정은 횟수 제한 없이 진행되며,<br>
+    원하시는 결과가 나올 때까지 충분히 반영해드립니다.
+  </div>
 </div>
  
-<p class="process-note">
-※ 수정은 횟수 제한 없이 진행되며,<br>
-원하시는 결과가 나올 때까지 충분히 반영해드립니다.
-</p>
- 
-</div>
- 
-<!-- 작업기간 -->
+<!-- ── 작업기간 ── -->
 <div class="card">
-<div class="card-title">작업기간</div>
-<div class="divider"></div>
- 
-<p>
-1세트(6개) 기준 1~3일 이내 작업됩니다.<br><br>
-상황에 따라 빠른 마감도 가능합니다.<br><br>
-당일 마감은 추가 비용이 발생할 수 있습니다.
-</p>
- 
+  <div class="card-title">작업기간</div>
+  <div class="divider"></div>
+  <p>
+    1세트(6개) 기준 1~3일 이내 작업됩니다.<br><br>
+    상황에 따라 빠른 마감도 가능합니다.<br><br>
+    당일 마감은 추가 비용이 발생할 수 있습니다.
+  </p>
 </div>
  
-<!-- 가격 -->
+<!-- ── 가격 ── -->
 <div class="card">
-<div class="card-title">가격 관련 안내</div>
-<div class="divider"></div>
- 
-<p>
-작업 내용에 따라 가격이 달라질 수 있습니다.<br><br>
-같은 디자인에서 색상만 바뀌거나,<br>
-소품만 살짝 추가되는 경우에는 더 저렴한 가격으로 진행됩니다.<br><br>
-정확한 금액은 디자인 확인 후 안내드리니,<br>
-부담 없이 편하게 문의 주세요!
-</p>
- 
+  <div class="card-title">가격 관련 안내</div>
+  <div class="divider"></div>
+  <p>
+    작업 내용에 따라 가격이 달라질 수 있습니다.<br><br>
+    같은 디자인에서 색상만 바뀌거나,<br>
+    소품만 살짝 추가되는 경우에는 더 저렴한 가격으로 진행됩니다.
+  </p>
+  <div class="price-note">
+    <p>※ 정확한 금액은 디자인 확인 후 안내드리니,<br>부담 없이 편하게 문의 주세요!</p>
+  </div>
 </div>
  
-<!-- 픽셀 -->
+<!-- ── 픽셀 스타일 ── -->
 <div class="card">
-<div class="card-title">픽셀 스타일</div>
-<div class="divider"></div>
- 
-<div class="pixel-box">
-<div>
-<div class="sample" onclick="uploadToBox(this)"></div>
-<div style="margin-top:8px;font-weight:600;color:#1E2A35;">18px</div>
+  <div class="card-title">픽셀 스타일</div>
+  <div class="divider"></div>
+  <div class="pixel-box">
+    <div>
+      <div class="sample" onclick="uploadToBox(this)"><span style="font-size:28px">🔲</span></div>
+      <div class="pixel-label">18px</div>
+    </div>
+    <div>
+      <div class="sample" onclick="uploadToBox(this)"><span style="font-size:28px">🔳</span></div>
+      <div class="pixel-label">36px</div>
+    </div>
+  </div>
+  <p style="font-size:13px;margin-top:16px;">
+    ※ 해당 픽셀 표기는 실제 플랫폼 기준이 아닌 작업 설명용입니다.
+  </p>
 </div>
  
-<div>
-<div class="sample" onclick="uploadToBox(this)"></div>
-<div style="margin-top:8px;font-weight:600;color:#1E2A35;">36px</div>
-</div>
-</div>
- 
-<p style="font-size:14px;">
-※ 해당 픽셀 표기는 실제 플랫폼 기준이 아닌 작업 설명용입니다.
-</p>
- 
-</div>
- 
-<!-- 도트 애니메이션 -->
+<!-- ── 도트 애니메이션 ── -->
 <div class="card">
-<div class="card-title">도트 애니메이션</div>
-<div class="divider"></div>
- 
-<div class="pixel-box">
-<div><div class="sample" onclick="uploadToBox(this)"></div></div>
-<div><div class="sample" onclick="uploadToBox(this)"></div></div>
-<div><div class="sample" onclick="uploadToBox(this)"></div></div>
+  <div class="card-title">도트 애니메이션</div>
+  <div class="divider"></div>
+  <div class="pixel-box">
+    <div><div class="sample" onclick="uploadToBox(this)"><span style="font-size:28px">✨</span></div></div>
+    <div><div class="sample" onclick="uploadToBox(this)"><span style="font-size:28px">💫</span></div></div>
+    <div><div class="sample" onclick="uploadToBox(this)"><span style="font-size:28px">🌟</span></div></div>
+  </div>
+  <p style="margin-top:16px;">
+    프레임수와 작업량에 따라 비용이 달라지니<br>
+    자세한 디자인은 문의 부탁드립니다!
+  </p>
 </div>
  
-<p>
-프레임수와 작업량에 따라 비용이 달라지니<br>
-자세한 디자인은 문의 부탁드립니다!
-</p>
- 
-</div>
- 
-<!-- 안내사항 -->
+<!-- ── 안내사항 ── -->
 <div class="card">
-<div class="card-title">안내사항</div>
-<div class="divider"></div>
- 
-<ul class="notice-list">
-<li>주문 전 문의 부탁드립니다.<br><br></li>
-<li>오마카세 작업 가능합니다 (전체 컨셉 변경 불가)<br><br></li>
-<li>작업물은 포트폴리오로 사용됩니다.<br><br></li>
-<li>보정·리터칭 등 2차 가공은 금지입니다.<br><br></li>
-</ul>
- 
+  <div class="card-title">안내사항</div>
+  <div class="divider"></div>
+  <ul class="notice-list">
+    <li>✦ 주문 전 반드시 문의 부탁드립니다</li>
+    <li>✦ 단순 색상·파츠 변경 시 가격이 달라질 수 있으니 미리 말씀해 주세요</li>
+    <li>✦ 오마카세 가능 · 단, 캐릭터 종/전체 컨셉 변경은 불가합니다</li>
+    <li>✦ 샘플의 흰 테두리·그림자는 가시성용이며, 실제 작업물엔 미포함됩니다 (필요 시 요청해 주세요)</li>
+    <li>✦ 작업물은 작가 샘플로 업로드될 수 있으며, 원치 않으실 경우 미리 말씀해 주세요</li>
+    <li>✦ 보정·리터칭 등 2차 가공은 금지입니다</li>
+  </ul>
 </div>
  
-<!-- 포트폴리오 -->
+<!-- ── 포트폴리오 ── -->
 <div class="card">
-<div class="card-title">포트폴리오</div>
-<div class="divider"></div>
- 
-<div class="portfolio-filter">
-<button onclick="setView('all', this)" class="active">전체</button>
-<button onclick="setView('animal', this)">동물</button>
-<button onclick="setView('character', this)">캐릭터</button>
-<button onclick="setView('etc', this)">기타</button>
+  <div class="card-title">포트폴리오</div>
+  <div class="divider"></div>
+  <div class="portfolio-filter">
+    <button onclick="setView('all',this)" class="active">전체</button>
+    <button onclick="setView('animal',this)">동물</button>
+    <button onclick="setView('character',this)">캐릭터</button>
+    <button onclick="setView('etc',this)">기타</button>
+  </div>
+  <div id="adminPanel">
+    <button onclick="addBox('animal')">동물 +</button>
+    <button onclick="addBox('character')">캐릭터 +</button>
+    <button onclick="addBox('etc')">기타 +</button>
+  </div>
+  <div class="portfolio-grid" id="portfolio"></div>
 </div>
  
-<div id="adminPanel">
-<button onclick="addBox('animal')">동물 +</button>
-<button onclick="addBox('character')">캐릭터 +</button>
-<button onclick="addBox('etc')">기타 +</button>
-</div>
- 
-<div class="portfolio-grid" id="portfolio"></div>
- 
-</div>
- 
-</div>
+</div><!-- .page -->
  
 <script>
- 
-let currentView = "all";
-let adminMode = false;
-let adminTapCount = 0;
-let adminTapTimer = null;
- 
-const grid = document.getElementById("portfolio");
- 
-/* 관리자 모드 - 작업경력 타이틀 3번 클릭 */
-function adminTap(){
-  adminTapCount++;
-  clearTimeout(adminTapTimer);
-  adminTapTimer = setTimeout(() => { adminTapCount = 0; }, 2000);
- 
-  if(adminTapCount >= 3){
-    adminTapCount = 0;
-    toggleAdmin();
-  }
-}
- 
-function toggleAdmin(){
-  adminMode = !adminMode;
-  document.getElementById("adminPanel").style.display = adminMode ? "flex" : "none";
- 
-  document.querySelectorAll(".portfolio-item").forEach(item => {
-    item.classList.toggle("admin-mode", adminMode);
-  });
- 
-  alert(adminMode ? "관리자 모드 ON" : "관리자 모드 OFF");
-}
- 
-/* 파일 업로드 공통 함수 */
-function openFilePicker(callback){
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
-  input.onchange = e => {
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => callback(ev.target.result);
-    reader.readAsDataURL(file);
-  };
-  input.click();
-}
- 
-/* 박스 생성 */
-function createBox(src, type){
-  const div = document.createElement("div");
-  div.className = "portfolio-item" + (adminMode ? " admin-mode" : "");
-  div.dataset.type = type;
- 
-  if(src){
-    const img = document.createElement("img");
-    img.src = src;
-    div.appendChild(img);
-  } else {
-    const label = document.createElement("span");
-    label.className = "empty-label";
-    label.textContent = "클릭하여 이미지 추가";
-    div.appendChild(label);
-  }
- 
-  div.addEventListener("click", () => {
-    if(!adminMode) return;
-    openFilePicker(result => {
-      div.innerHTML = "";
-      const newImg = document.createElement("img");
-      newImg.src = result;
-      div.appendChild(newImg);
-    });
-  });
- 
-  grid.appendChild(div);
-  applyFilter();
-}
- 
-/* 관리자: 박스 추가 */
-function addBox(type){
-  createBox(null, type);
-}
- 
-/* 작업경력/픽셀/애니메이션 이미지 업로드 */
-function uploadToBox(el){
-  if(!adminMode) return;
-  openFilePicker(result => {
-    el.innerHTML = `<img src="${result}">`;
-  });
-}
- 
-/* 필터 적용 */
-function applyFilter(){
-  document.querySelectorAll(".portfolio-item").forEach(item => {
-    const t = item.dataset.type;
-    if(currentView === "all"){
-      item.style.display = "flex";
-    } else {
-      item.style.display = (t === currentView) ? "flex" : "none";
-    }
-  });
-}
- 
-/* 필터 버튼 */
-function setView(type, el){
-  currentView = type;
-  document.querySelectorAll(".portfolio-filter button")
-    .forEach(b => b.classList.remove("active"));
-  el.classList.add("active");
-  applyFilter();
-}
- 
+let currentView="all",adminMode=false,adminTapCount=0,adminTapTimer=null;
+const grid=document.getElementById("portfolio");
+function adminTap(){adminTapCount++;clearTimeout(adminTapTimer);adminTapTimer=setTimeout(()=>{adminTapCount=0;},2000);if(adminTapCount>=3){adminTapCount=0;toggleAdmin();}}
+function toggleAdmin(){adminMode=!adminMode;document.getElementById("adminPanel").style.display=adminMode?"flex":"none";document.querySelectorAll(".portfolio-item").forEach(i=>i.classList.toggle("admin-mode",adminMode));alert(adminMode?"관리자 모드 ON":"관리자 모드 OFF");}
+function openFilePicker(cb){const input=document.createElement("input");input.type="file";input.accept="image/*";input.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>cb(ev.target.result);r.readAsDataURL(f);};input.click();}
+function createBox(src,type){const div=document.createElement("div");div.className="portfolio-item"+(adminMode?" admin-mode":"");div.dataset.type=type;if(src){const img=document.createElement("img");img.src=src;div.appendChild(img);}else{const l=document.createElement("span");l.className="empty-label";l.textContent="클릭하여 이미지 추가";div.appendChild(l);}div.addEventListener("click",()=>{if(!adminMode)return;openFilePicker(r=>{div.innerHTML="";const i=document.createElement("img");i.src=r;div.appendChild(i);});});grid.appendChild(div);applyFilter();}
+function addBox(type){createBox(null,type);}
+function uploadToBox(el){if(!adminMode)return;openFilePicker(r=>{el.innerHTML=`<img src="${r}">`;});}
+function applyFilter(){document.querySelectorAll(".portfolio-item").forEach(item=>{item.style.display=(currentView==="all"||item.dataset.type===currentView)?"flex":"none";});}
+function setView(type,el){currentView=type;document.querySelectorAll(".portfolio-filter button").forEach(b=>b.classList.remove("active"));el.classList.add("active");applyFilter();}
 </script>
+</body>
+</html>
