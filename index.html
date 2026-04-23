@@ -8,12 +8,12 @@
  
 /* ─── THEME VARIABLES ─────────────────────────────── */
 :root {
-  --grad-from:   #D9D6FF;
-  --grad-to:     #BFE4FF;
+  --grad-from:   #ECEAFF;
+  --grad-to:     #D8EEFF;
   --accent:      #7B6FE8;
   --accent-dark: #4d4794;
   --accent-pale: #F4F6FF;
-  --box:         #F4F6FF;
+  --box:         #F8F8FF;
   --box-inner:   #FFFFFF;
   --divider-mid: #7B6FE8;
   --divider-side: rgba(123,111,232,0.15);
@@ -199,7 +199,9 @@ p {
   text-align: center;
   line-height: 1.85;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.25s ease;
 }
+.process-note:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.09); border-color: var(--accent); }
  
 /* ─── PIXEL BOX ───────────────────────────────────── */
 .pixel-box {
@@ -229,7 +231,9 @@ p {
   color: var(--text-body);
   line-height: 1.75;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.25s ease;
 }
+.notice-list li:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.09); border-color: var(--accent); }
  
 /* ─── PORTFOLIO FILTER ────────────────────────────── */
 .portfolio-filter {
@@ -319,7 +323,9 @@ p {
   margin-top: 16px;
   border: 1.5px solid var(--border);
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.25s ease;
 }
+.price-note:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.09); border-color: var(--accent); }
 .price-note p { color: var(--accent-dark); font-weight: 600; }
  
 </style>
